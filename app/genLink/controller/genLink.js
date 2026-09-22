@@ -288,7 +288,26 @@ mainApp.controller('genLinkController', ['$scope', '$rootScope', '$state', 'serv
 
         if (params) {
             // $scope.genUrl = window.location.origin + serverService.getHome() + '/register?' + params + '&utm_campaign=Assisted link';
-            $scope.genUrl = `${window.location.origin}${serverService.getHome()}/register? ${params} &utm_campaign=Assisted link`;
+            // $scope.genUrl = `${window.location.origin}${serverService.getHome()}/register? ${params} &utm_campaign=Assisted link`;
+            var rmTeamo = $rootScope.formData.RMTeam || sessionStorage.getItem('RMTeam');
+			var btypeo = rmTeamo == 'Business Associate' ? 'Business Associate' : 'DIY';
+            $scope.fullGenUrl = `${window.location.origin}${serverService.getHome()}axisdiy/register?${params}&utm_campaign=Assisted%20link&rmTeam=${encodeURIComponent(btypeo)}`;
+            $scope.genUrl = $scope.fullGenUrl;
+            var tinyUrlData = {
+                'RMUserName': $rootScope.formData.fields.rmUsername || $rootScope.formData.fields.rmcode,
+                'LongUrl': $scope.fullGenUrl,
+            };
+            var url = 'ConvertToTinyUrl';
+            $rootScope.formData.apiLoading = true;
+            serverService.apiCall(url, tinyUrlData).then(function (a) {
+                var response = a.data;
+                $rootScope.formData.apiLoading = false;
+                if (response.IsSuccess && response.TinyUrl) {
+                    $scope.genUrl = response.TinyUrl;
+                }
+            }, function () {
+                $rootScope.formData.apiLoading = false;
+            });
         }
 
     }
@@ -333,7 +352,8 @@ mainApp.controller('genLinkController', ['$scope', '$rootScope', '$state', 'serv
                 'MobileNumber': $rootScope.formData.fields.cusmobile,
                 // 'EmailId': $rootScope.formData.fields.cusemail,
                 'RMcode': $rootScope.formData.fields.rmcode,
-                'CustomizeUrl': $scope.genUrl,
+                // 'CustomizeUrl': $scope.genUrl,
+                'CustomizeUrl': $scope.fullGenUrl,
             };
             $rootScope.formData.apiLoading = true;
             serverService.apiCall(url, sendData).then(function (a) {
@@ -403,7 +423,8 @@ mainApp.controller('genLinkController', ['$scope', '$rootScope', '$state', 'serv
                 // 'MobileNumber': $rootScope.formData.fields.cusmobile,
                 'EmailId': $rootScope.formData.fields.cusemail,
                 'RMcode': $rootScope.formData.fields.rmcode,
-                'CustomizeUrl': $scope.genUrl,
+                // 'CustomizeUrl': $scope.genUrl,
+                'CustomizeUrl': $scope.fullGenUrl,
             };
             $rootScope.formData.apiLoading = true;
             serverService.apiCall(url, sendData).then(function (a) {

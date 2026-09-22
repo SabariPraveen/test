@@ -3312,7 +3312,7 @@ mainApp.controller('registerController', ['$scope', '$rootScope', '$state', 'ser
 								"referenceNumber": response.ReferenceNumber,
 								"mobile": response.AgentMobile
 							};
-							if ($rootScope.formData.assistedLGCode || $rootScope.formData.assistedLCCode) {
+							if ($rootScope.formData.assistedLGCode || $rootScope.formData.assistedLCCode || sessionStorage.getItem('lgcode') || sessionStorage.getItem('lccode')) {
 								$rootScope.codeMaping();
 							}
 							var dpval = '';
@@ -3333,7 +3333,7 @@ mainApp.controller('registerController', ['$scope', '$rootScope', '$state', 'ser
 							}
 
 							// if ((utm_bank && dp) || lgcode || lccode || bankname || planId || productId || segment || isCMLMandatory || referral_code || Utm_promoCode) {
-							if (UTM_bank || utm_bank || dp || lgcode || lccode || bankname || planId || productId || segment || isCMLMandatory || referral_code || Utm_promoCode) {
+							if (UTM_bank || utm_bank || dp || lgcode || lccode || bankname || planId || productId || segment || isCMLMandatory || referral_code || Utm_promoCode || sessionStorage.getItem('lgcode') || sessionStorage.getItem('lccode')) {
 								if (bankname) {
 									utm_bank = bankname;
 								} else {
