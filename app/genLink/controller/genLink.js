@@ -28,7 +28,7 @@ mainApp.controller('genLinkController', ['$scope', '$rootScope', '$state', 'serv
     }
 
     $scope.getPlanList = function () {
-        var url = "GetALLPlanByBusinessType";
+        var url = "GetALLPlanByBusinessTypeWebRM";
         var m = "W";
 
         var sendData = {

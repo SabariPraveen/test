@@ -3351,14 +3351,14 @@ mainApp.controller('registerController', ['$scope', '$rootScope', '$state', 'ser
 									"DpId": "",
 									"Demattype": "",
 									"UtmBankShortName": utm_bank,
-									"LCCode": lccode,
-									"LGCode": lgcode,
+									"LCCode": lccode || sessionStorage.getItem('lccode'),
+									"LGCode": lgcode || sessionStorage.getItem('lgcode'),
 									"Dp": dpval,
-									"PlanId": planId,
-									"Segment": segment,
+									"PlanId": planId || sessionStorage.getItem('segment'),
+									"Segment": segment || sessionStorage.getItem('segment'),
 									"IsCMLCopy": isCMLMandatoryval,
 									"ReferralCode": referral_code,
-									"PromoCode": Utm_promoCode
+									"PromoCode": Utm_promoCode || sessionStorage.getItem('PromoCode')
 								}
 								serverService.apiCall(s_url, sendData);
 							}
